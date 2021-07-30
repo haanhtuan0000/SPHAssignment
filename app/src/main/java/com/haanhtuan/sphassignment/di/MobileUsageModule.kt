@@ -10,6 +10,7 @@ import dagger.hilt.android.components.ActivityComponent
 import dagger.hilt.android.components.ViewModelComponent
 import dagger.hilt.android.internal.managers.ApplicationComponentManager
 import dagger.hilt.android.scopes.ActivityScoped
+import dagger.hilt.android.scopes.ViewModelScoped
 import javax.inject.Qualifier
 import javax.inject.Singleton
 
@@ -34,7 +35,7 @@ abstract class MobileLocalUsageModule {
 abstract class MobileRemoteUsageModule {
 
     @RemoteDataSource
-    @ActivityScoped
+    @ViewModelScoped
     @Binds
     abstract fun bindRemoteUsage(impl: RemoteMobileUsageDataSource): MobileUsageDataSource
 }
