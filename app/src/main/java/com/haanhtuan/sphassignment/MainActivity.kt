@@ -12,14 +12,17 @@ import android.view.MenuItem
 import android.view.View
 import androidx.activity.viewModels
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.haanhtuan.sphassignment.databinding.ActivityMainBinding
+import com.haanhtuan.sphassignment.databinding.ItemLayoutBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
-    private val mainViewModel: MainViewModel by viewModels()
+    private lateinit var mainViewModel: MainViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,10 +31,21 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-//        mainViewModel = ViewModelProvider(this).get(MainViewModel::class.java)
+        mainViewModel = ViewModelProvider(this).get(MainViewModel::class.java)
 
-        mainViewModel?.getCountry()?.observe(this,{
 
-        })
+        val layoutManager = LinearLayoutManager(this)
+
+        binding.recyclerView.layoutManager = layoutManager
+        binding.recyclerView.hasFixedSize()
+        binding.recyclerView.adapter = ItemAdapter()
+        binding.recyclerView.addItemDecoration(
+            DividerItemDecoration(
+                this,
+                layoutManager.orientation
+            )
+        )
+        binding.viewModel = mainViewModel
+
     }
 }
