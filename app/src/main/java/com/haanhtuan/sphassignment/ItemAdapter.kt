@@ -1,5 +1,6 @@
 package com.haanhtuan.sphassignment
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,14 +21,13 @@ class ItemAdapter : RecyclerView.Adapter<ItemAdapter.ItemViewHolder>() {
         @BindingAdapter("items")
         fun RecyclerView.bindItems(items: List<Year>?) {
             val adapter = adapter as ItemAdapter
-            if (items == null) {
-            } else {
-                Timber.e("tuan 2")
+            if (items != null) {
                 adapter.update(items)
             }
         }
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     fun update(items: List<Year>) {
         this.items = items
         notifyDataSetChanged()
@@ -44,9 +44,11 @@ class ItemAdapter : RecyclerView.Adapter<ItemAdapter.ItemViewHolder>() {
     ) : RecyclerView.ViewHolder(binding.root) {
         fun bind(year: Year) {
             binding.item = year
+            //click to imageView
             binding.imageView.setOnClickListener {
                 year.isShowQuartersDetail = !year.isShowQuartersDetail
-                if(year.isShowQuartersDetail) binding.constraintUsageDetail.visibility = View.VISIBLE
+                if (year.isShowQuartersDetail) binding.constraintUsageDetail.visibility =
+                    View.VISIBLE
                 else binding.constraintUsageDetail.visibility = View.GONE
             }
 

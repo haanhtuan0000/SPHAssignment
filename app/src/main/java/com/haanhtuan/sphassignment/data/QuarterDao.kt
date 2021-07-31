@@ -11,11 +11,11 @@ interface QuarterDao {
     suspend fun getAll(): List<Quarter>
 
     @Insert
-    suspend fun insertAll( quarters: List<Quarter>)
+    suspend fun insertAll(quarters: List<Quarter>)
 
     @Insert
-    suspend fun insert( quarter: Quarter)
+    suspend fun insert(quarter: Quarter)
 
     @Query("DELETE FROM quarters")
-    fun nukeTable()
+    suspend fun nukeTable()
 }
