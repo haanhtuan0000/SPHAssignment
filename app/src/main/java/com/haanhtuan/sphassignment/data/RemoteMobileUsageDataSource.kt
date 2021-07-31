@@ -9,7 +9,6 @@ class RemoteMobileUsageDataSource(private val appApi: IAppApi) : MobileUsageData
     override suspend fun getAllQuarters(callback: (List<Quarter>) -> Unit) {
         val list = appApi.getSummary()
         list.body()?.result?.records?.let {
-            Timber.e("tuan"+ it[0]?.quarter)
             callback(it)
         }
     }

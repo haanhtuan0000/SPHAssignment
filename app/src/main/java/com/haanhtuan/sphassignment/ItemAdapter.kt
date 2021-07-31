@@ -5,7 +5,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.BindingAdapter
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.LiveData
 import androidx.recyclerview.widget.RecyclerView
+import com.haanhtuan.sphassignment.data.model.Quarter
 import com.haanhtuan.sphassignment.data.model.Year
 import com.haanhtuan.sphassignment.databinding.ItemLayoutBinding
 import timber.log.Timber
@@ -17,19 +19,19 @@ class ItemAdapter : RecyclerView.Adapter<ItemAdapter.ItemViewHolder>() {
         @JvmStatic
         @BindingAdapter("items")
         fun RecyclerView.bindItems(items: List<Year>?) {
-            Timber.e("tuan: "+ items)
-            if (items != null) {
-                Timber.e("tuan: "+ items.size)
-                val adapter = adapter as ItemAdapter
+            val adapter = adapter as ItemAdapter
+            if (items == null) {
+            } else {
+                Timber.e("tuan 2")
                 adapter.update(items)
             }
         }
     }
 
     fun update(items: List<Year>) {
-            this.items = items
-            notifyDataSetChanged()
-        }
+        this.items = items
+        notifyDataSetChanged()
+    }
 
     class ItemViewHolder(
         private val parent: ViewGroup,
@@ -42,6 +44,11 @@ class ItemAdapter : RecyclerView.Adapter<ItemAdapter.ItemViewHolder>() {
     ) : RecyclerView.ViewHolder(binding.root) {
         fun bind(year: Year) {
             binding.item = year
+            binding.imageView.setOnClickListener {
+                year.isShowQuartersDetail = !year.isShowQuartersDetail
+                if(year.isShowQuartersDetail) binding.constraintUsageDetail.visibility = View.VISIBLE
+                else binding.constraintUsageDetail.visibility = View.GONE
+            }
 
         }
     }

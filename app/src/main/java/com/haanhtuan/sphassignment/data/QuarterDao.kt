@@ -12,4 +12,7 @@ interface QuarterDao {
 
     @Insert
     fun insertAll( quarters: List<Quarter>)
+
+    @Insert
+    fun insert( quarter: Quarter)
 }

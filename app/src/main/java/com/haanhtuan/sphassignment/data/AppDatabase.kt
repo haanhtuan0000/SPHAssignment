@@ -6,5 +6,5 @@ import com.haanhtuan.sphassignment.data.model.Quarter
 
 @Database(entities = [Quarter::class], version = 1, exportSchema = false)
 abstract class AppDatabase : RoomDatabase() {
-    abstract fun logDao(): QuarterDao
+    abstract fun quarterDao(): QuarterDao
 }

@@ -14,6 +14,8 @@ import androidx.activity.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.room.Room
+import com.haanhtuan.sphassignment.data.AppDatabase
 import com.haanhtuan.sphassignment.databinding.ActivityMainBinding
 import com.haanhtuan.sphassignment.databinding.ItemLayoutBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -38,14 +40,15 @@ class MainActivity : AppCompatActivity() {
 
         binding.recyclerView.layoutManager = layoutManager
         binding.recyclerView.hasFixedSize()
-        binding.recyclerView.adapter = ItemAdapter()
-        binding.recyclerView.addItemDecoration(
-            DividerItemDecoration(
-                this,
-                layoutManager.orientation
-            )
-        )
+
+        val itemAdapter = ItemAdapter()
+        binding.recyclerView.adapter = itemAdapter
         binding.viewModel = mainViewModel
+
+        mainViewModel.getItems().observe(this, {
+            itemAdapter.update(it)
+        })
+
 
     }
 }

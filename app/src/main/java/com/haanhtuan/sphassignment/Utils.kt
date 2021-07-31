@@ -2,6 +2,7 @@ package com.haanhtuan.sphassignment
 
 import com.haanhtuan.sphassignment.data.model.Quarter
 import com.haanhtuan.sphassignment.data.model.Year
+import timber.log.Timber
 import java.lang.NumberFormatException
 
 
@@ -40,7 +41,8 @@ class Utils {
             quarter.quarters.forEach {
                 total += castFromStringToDouble(it.volume_of_mobile_data)
             }
-            quarter.dataConsume = total.toString()
+            Timber.e("tuan: "+ String.format("%.4f", total))
+            quarter.dataConsume = String.format("%.4f", total)
             total = 0.0000
         }
 
