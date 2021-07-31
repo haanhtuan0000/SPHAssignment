@@ -1,5 +1,7 @@
 package com.haanhtuan.sphassignment
 
+import android.os.Handler
+import android.os.Looper
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -13,6 +15,8 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.util.concurrent.ExecutorService
+import java.util.concurrent.Executors
 import javax.inject.Inject
 
 @HiltViewModel
@@ -21,34 +25,38 @@ class MainViewModel @Inject constructor(
     private var localRepo: LocalUsageDataSource
 ) :
     ViewModel() {
-//    @LocalDataSource
-//    @Inject lateinit var localRepo: MobileUsageDataSource
     private var items = MutableLiveData<List<Year>>()
 
     fun getItems() = items
 
     init {
-//        items.value = arrayListOf()
         loadData()
     }
 
     private fun loadData() {
 
-        var quarters : List<Quarter> = ArrayList()
-        viewModelScope.launch {
-            remoteRepo.getAllQuarters {
-                quarters = it
-                val temp = Utils().convertDataForDisplay(it)
-                items.postValue(temp)
-            }
-        }
-
+        var quarters: List<Quarter> = ArrayList()
 //        viewModelScope.launch {
+//            remoteRepo.getAllQuarters {
+//                quarters = it
+//                val temp = Utils().convertDataForDisplay(it)
+//                items.postValue(temp)
+//            }
+//
 //            withContext(Dispatchers.IO) {
+//                localRepo.clearData()
 //                localRepo.insertAll(quarters)
 //            }
 //        }
 
+        viewModelScope.launch {
+            withContext(Dispatchers.IO) {
+                localRepo.getAllQuarters { quarters = it }
+                items.postValue(Utils().convertDataForDisplay(quarters))
+            }
+
+
+        }
     }
 
 }

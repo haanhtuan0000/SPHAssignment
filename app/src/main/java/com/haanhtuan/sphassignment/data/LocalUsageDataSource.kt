@@ -11,7 +11,11 @@ class LocalUsageDataSource @Inject constructor(private val quarterDao: QuarterDa
         callback(quarters)
     }
 
-    fun insertAll(quarters: List<Quarter>) {
-        if (quarters.isNotEmpty()) quarterDao.insert(quarters[0])
+    suspend fun insertAll(quarters: List<Quarter>) {
+         quarterDao.insertAll(quarters)
+    }
+
+    suspend fun clearData() {
+        quarterDao.nukeTable()
     }
 }
